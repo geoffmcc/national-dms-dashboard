@@ -30,3 +30,6 @@ Thumbs.db
 *.curl
 *.http
 *.json.dump
+
+# Local project backups
+/backups/
