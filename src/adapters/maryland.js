@@ -1,0 +1,6 @@
+'use strict';
+const {stripHtml,isNoMessage,splitPages,recordsFromPayload,request}=require('./common');
+const URL='https://chart.maryland.gov/DataFeeds/GetDmsJson';
+const PAGE='https://chart.maryland.gov/DataFeeds/GetDataFeeds';
+async function fetchMaryland(){try{const {text}=await request(URL,{headers:{accept:'application/json'}});let p=JSON.parse(text);const records=recordsFromPayload(p);const signs=records.map((r,i)=>{const raw=r.msgPlain||r.msgMulti||r.msgHTML||'';const messages=isNoMessage(raw)?[]:splitPages(raw);const online=!/(OFFLINE|MAINT)/i.test(String(r.commMode||''));return{id:`MD-${r.id??i}`,state:'MD',agency:'Maryland CHART',district:'',name:stripHtml(r.description||r.name||`Maryland sign ${i+1}`),roadway:'',direction:'',latitude:Number.isFinite(Number(r.lat))?Number(r.lat):null,longitude:Number.isFinite(Number(r.lon))?Number(r.lon):null,messages,imagePages:[],active:online&&messages.length>0,online,demo:false,lastUpdated:r.lastCachedDataUpdateTime,sourceUrl:PAGE};});if(!signs.length)throw Error('Maryland returned no signs');return{signs,status:{state:'MD',ok:true,mode:'live-json-feed',count:signs.length}};}catch(error){return{signs:[],status:{state:'MD',ok:false,mode:'unavailable',count:0,error:error.message}};}}
+module.exports={fetchMaryland};

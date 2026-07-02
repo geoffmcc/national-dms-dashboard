@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>National DMS Dashboard</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><div><h1>National DMS Dashboard</h1><p>Live public dynamic-message-sign feeds · free, keyless sources</p><p class="refresh-info"><span id="lastRefresh">Waiting for data…</span> · <span id="nextRefresh"></span></p></div><button id="refresh">Refresh live data</button></header>
+<section id="sourceStatus" class="statusbar"></section>
+<section class="controls">
+  <input id="search" placeholder="Search road, location, state, or message">
+  <select id="state"><option value="">All states</option></select>
+  <select id="category"><option value="">All categories</option></select>
+  <label><input id="active" type="checkbox" checked> Active only</label>
+  <label><input id="publicSafety" type="checkbox"> Public safety alerts only</label>
+  <label><input id="amberSilver" type="checkbox"> AMBER / Silver alerts only</label>
+  <label><input id="border" type="checkbox"> International border signs only</label>
+</section>
+<section class="stats"><div><strong id="shown">0</strong><span>matching</span></div><div><strong id="rendered">0</strong><span>rendered</span></div><div><strong id="activeCount">0</strong><span>active</span></div><div><strong id="publicSafetyCount">0</strong><span>public safety alerts</span></div><div><strong id="borderCount">0</strong><span>international border</span></div><div><strong id="total">0</strong><span>loaded</span></div><div><strong id="stateCount">0</strong><span>states</span></div></section>
+<main id="cards" aria-live="polite"></main>
+<template id="cardTemplate"><article class="card"><div class="cardtop"><span class="state"></span><span class="mode"></span></div><div class="badges"></div><h2></h2><p class="meta"></p><div class="sign-pages"></div><p class="updated"></p><div class="links"></div></article></template>
+<script src="/app.js"></script></body></html>
